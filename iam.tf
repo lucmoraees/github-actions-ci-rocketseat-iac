@@ -13,6 +13,37 @@ resource "aws_iam_openid_connect_provider" "oidc-git" {
   }
 }
 
+resource "aws_iam_role" "tf_role" {
+  name = "tf_role"
+
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Effect" : "Allow",
+        "Action" : "sts:AssumeRoleWithWebIdentity",
+        "Principal" : {
+          "Federated" : "arn:aws:iam::343218211173:oidc-provider/token.actions.githubusercontent.com"
+        },
+        "Condition" : {
+          "StringEquals" : {
+            "token.actions.githubusercontent.com:aud" : [
+              "sts.amazonaws.com"
+            ],
+            "token.actions.githubusercontent.com:sub" : [
+              "repo:lucmoraees/github-actions-ci-rocketseat:ref:refs/heads/main"
+            ]
+          }
+        }
+      }
+    ]
+  })
+
+  tags = {
+    IAC="True"
+  }
+}
+
 resource "aws_iam_role" "app_runner_role" {
   name = "app_runner_role"
 
