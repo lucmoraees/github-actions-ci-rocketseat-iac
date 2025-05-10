@@ -31,7 +31,7 @@ resource "aws_iam_role" "tf_role" {
               "sts.amazonaws.com"
             ],
             "token.actions.githubusercontent.com:sub" : [
-              "repo:lucmoraees/github-actions-ci-rocketseat:ref:refs/heads/main"
+              "repo:lucmoraees/github-actions-ci-rocketseat-iac:ref:refs/heads/main"
             ]
           }
         }
