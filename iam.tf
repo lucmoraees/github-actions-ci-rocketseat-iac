@@ -39,8 +39,30 @@ resource "aws_iam_role" "tf_role" {
     ]
   })
 
+  inline_policy {
+    name = "ecr_app_permision"
+
+    policy = jsonencode({
+      "Version" = "2012-10-17",
+      "Statement" = [
+        {
+          "Sid" = "Statement1",
+          "Action" : "ecr:*",
+          "Effect" : "Allow",
+          "Resource" : "*"
+        },
+        {
+          "Sid" = "Statement2",
+          "Action" : "iam:*"
+          "Effect" : "Allow",
+          "Resource" : "*"
+        }
+      ]
+    })
+  }
+
   tags = {
-    IAC="True"
+    IAC = "True"
   }
 }
 
@@ -99,18 +121,18 @@ resource "aws_iam_role" "ecr_role" {
       "Statement" = [
         {
           "Sid" = "Statement1",
-          "Action": "apprunner:*",
-          "Effect": "Allow",
-          "Resource": "*" 
+          "Action" : "apprunner:*",
+          "Effect" : "Allow",
+          "Resource" : "*"
         },
         {
           "Sid" = "Statement2",
-          "Action": [
+          "Action" : [
             "iam:PassRole",
             "iam:CreateServiceLinkedRole"
           ],
-          "Effect": "Allow",
-          "Resource": "*" 
+          "Effect" : "Allow",
+          "Resource" : "*"
         },
         {
           "Sid"    = "Statement3",
